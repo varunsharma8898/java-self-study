@@ -25,7 +25,7 @@ public class BinarySearchTree {
 		Node min = theTree.findMinimum(theTree.root);
 		System.out.println(min.key);
 
-		theTree.removeNode(theTree.findNode(1));
+		//theTree.removeNode(theTree.findNode(1));
 		theTree.printPretty();
 	}
 
@@ -33,58 +33,65 @@ public class BinarySearchTree {
 
 		// if the node has no children, simply remove its reference from parent node.
 		if (nodeToRemove.leftChild == null && nodeToRemove.rightChild == null) {
-			if (isLeftChild(nodeToRemove)) {
-				nodeToRemove.parent.leftChild = null;
+
+			if (nodeToRemove.parent == null) {
+				// only node in the tree, just set everything to null
+				nodeToRemove = null;
 			}
 			else {
-				nodeToRemove.parent.rightChild = null;
+				if (isLeftChild(nodeToRemove)) {
+					nodeToRemove.parent.leftChild = null;
+				} else {
+					nodeToRemove.parent.rightChild = null;
+				}
 			}
 		}
 
 		// if the node has only one child, replace its reference
 		// from the parent node with its child.
 		if (nodeToRemove.leftChild != null && nodeToRemove.rightChild == null) {
-			if (isLeftChild(nodeToRemove)) {
-				nodeToRemove.parent.leftChild = nodeToRemove.leftChild;
-			}
-			else {
-				nodeToRemove.parent.rightChild = nodeToRemove.leftChild;
-			}
-		}
-		else if (nodeToRemove.leftChild == null && nodeToRemove.rightChild != null) {
-			if (isLeftChild(nodeToRemove)) {
-				nodeToRemove.parent.leftChild = nodeToRemove.rightChild;
-			}
-			else {
-				nodeToRemove.parent.rightChild = nodeToRemove.rightChild;
-			}
+			replaceNode(nodeToRemove, nodeToRemove.leftChild);
+//			if (isLeftChild(nodeToRemove)) {
+//				nodeToRemove.parent.leftChild = nodeToRemove.leftChild;
+//			} else {
+//				nodeToRemove.parent.rightChild = nodeToRemove.leftChild;
+//			}
+		} else if (nodeToRemove.leftChild == null && nodeToRemove.rightChild != null) {
+			replaceNode(nodeToRemove, nodeToRemove.rightChild);
+//			if (isLeftChild(nodeToRemove)) {
+//				nodeToRemove.parent.leftChild = nodeToRemove.rightChild;
+//			} else {
+//				nodeToRemove.parent.rightChild = nodeToRemove.rightChild;
+//			}
 		}
 
 		// if the node has both the children present, find the closest node for replacement.
 		// Closest node should be leftmost node from the right child tree.
 		if (nodeToRemove.leftChild != null && nodeToRemove.rightChild != null) {
 			Node replacementNode = findMinimum(nodeToRemove.rightChild);
-			if (isLeftChild(nodeToRemove)) {
-				nodeToRemove.parent.leftChild = replacementNode;
 
+			if (replacementNode.rightChild != null) {
+				replacementNode.parent.leftChild = replacementNode.rightChild;
 			}
-			else {
-				nodeToRemove.parent.rightChild = replacementNode;
-			}
-
-//			if (isLeftChild(replacementNode)) {
-//				replacementNode.parent.leftChild = null;
-//			}
-//			else {
-//
-//			}
-
+			replaceNode(nodeToRemove, replacementNode);
 		}
 	}
-	private void replaceNode(Node nodeToReplace, Node replacementNode) {
-		if (nodeToReplace.parent == null) {
 
+	private void replaceNode(Node nodeToReplace, Node replacementNode) {
+		if (nodeToReplace.parent != null) {
+			if (isLeftChild(nodeToReplace)) {
+				nodeToReplace.parent.leftChild = replacementNode;
+			}
+			else {
+				nodeToReplace.parent.rightChild = replacementNode;
+			}
 		}
+		replacementNode.parent = nodeToReplace.parent;
+		replacementNode.leftChild = nodeToReplace.leftChild;
+		replacementNode.rightChild = nodeToReplace.rightChild;
+		nodeToReplace.parent = null;
+		nodeToReplace.leftChild = null;
+		nodeToReplace.rightChild = null;
 	}
 
 	private boolean isLeftChild(Node node) {
