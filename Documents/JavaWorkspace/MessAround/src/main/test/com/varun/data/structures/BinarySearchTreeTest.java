@@ -2,7 +2,6 @@ package com.varun.data.structures;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -14,11 +13,38 @@ public class BinarySearchTreeTest {
 
 	@Before
 	public void setUp() {
-		theTree = new BinarySearchTree();
+		theTree = new BinarySearchTreeImpl();
 	}
 
 	@Test
-	public void basicBinarySearchTreeTest() {
+	public void testInsertNode() {
+		theTree.insertNode(4);
+		theTree.insertNode(5);
+		theTree.insertNode(3);
+
+		Assert.assertEquals(4, theTree.getRootNode().key);
+		Assert.assertEquals(5, theTree.getRootNode().rightChild.key);
+		Assert.assertEquals(3, theTree.getRootNode().leftChild.key);
+	}
+
+	@Test
+	public void testFindNode() {
+		theTree.insertNode(4);
+		theTree.insertNode(5);
+		theTree.insertNode(2);
+		theTree.insertNode(3);
+		theTree.insertNode(1);
+
+		Node someNode = theTree.findNode(3);
+		Assert.assertEquals(4, theTree.getRootNode().key);
+		Assert.assertEquals(3, someNode.key);
+		Assert.assertEquals(2, someNode.parent.key);
+		Assert.assertEquals(null, someNode.leftChild);
+		Assert.assertEquals(null, someNode.rightChild);
+	}
+
+	@Test
+	public void testDeleteRootNode() {
 		theTree.insertNode(4);
 		theTree.insertNode(5);
 		theTree.insertNode(3);
@@ -31,16 +57,15 @@ public class BinarySearchTreeTest {
 		theTree.insertNode(9);
 		theTree.insertNode(11);
 
-		theTree.printPretty();
-
-		System.out.println(theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 4 3 1 2 5 8 7 6 10 9 11", theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 1 2 3 4 5 6 7 8 9 10 11", theTree.inOrderTraverseTree(theTree.root));
+		Assert.assertEquals(4, theTree.getRootNode().key);
+		Assert.assertEquals(" 4 3 1 2 5 8 7 6 10 9 11", theTree.preOrderTraverseTree(theTree.getRootNode()));
+		Assert.assertEquals(" 1 2 3 4 5 6 7 8 9 10 11", theTree.inOrderTraverseTree(theTree.getRootNode()));
 
 		theTree.removeNode(theTree.findNode(4));
-		System.out.println(theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 5 3 1 2 8 7 6 10 9 11", theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 1 2 3 5 6 7 8 9 10 11", theTree.inOrderTraverseTree(theTree.root));
+
+		Assert.assertEquals(5, theTree.getRootNode().key);
+		Assert.assertEquals(" 5 3 1 2 8 7 6 10 9 11", theTree.preOrderTraverseTree(theTree.getRootNode()));
+		Assert.assertEquals(" 1 2 3 5 6 7 8 9 10 11", theTree.inOrderTraverseTree(theTree.getRootNode()));
 	}
 
 	@Test
@@ -50,19 +75,16 @@ public class BinarySearchTreeTest {
 		theTree.insertNode(3);
 		theTree.insertNode(1);
 
-		theTree.printPretty();
-
-		System.out.println(theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 4 3 1 5", theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 1 3 4 5", theTree.inOrderTraverseTree(theTree.root));
+		Assert.assertEquals(4, theTree.getRootNode().key);
+		Assert.assertEquals(" 4 3 1 5", theTree.preOrderTraverseTree(theTree.getRootNode()));
+		Assert.assertEquals(" 1 3 4 5", theTree.inOrderTraverseTree(theTree.getRootNode()));
 
 		theTree.removeNode(theTree.findNode(5));
-		theTree.printPretty();
-		System.out.println(theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 4 3 1", theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 1 3 4", theTree.inOrderTraverseTree(theTree.root));
-	}
 
+		Assert.assertEquals(4, theTree.getRootNode().key);
+		Assert.assertEquals(" 4 3 1", theTree.preOrderTraverseTree(theTree.getRootNode()));
+		Assert.assertEquals(" 1 3 4", theTree.inOrderTraverseTree(theTree.getRootNode()));
+	}
 
 	@Test
 	public void testDeleteNodeWithTwoChildren() {
@@ -72,16 +94,14 @@ public class BinarySearchTreeTest {
 		theTree.insertNode(3);
 		theTree.insertNode(1);
 
-		theTree.printPretty();
-
-		System.out.println(theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 4 3 1 3 5", theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 1 3 3 4 5", theTree.inOrderTraverseTree(theTree.root));
+		Assert.assertEquals(4, theTree.getRootNode().key);
+		Assert.assertEquals(" 4 3 1 3 5", theTree.preOrderTraverseTree(theTree.getRootNode()));
+		Assert.assertEquals(" 1 3 3 4 5", theTree.inOrderTraverseTree(theTree.getRootNode()));
 
 		theTree.removeNode(theTree.findNode(3));
-		theTree.printPretty();
-		System.out.println(theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 4 3 1 5", theTree.preOrderTraverseTree(theTree.root));
-		Assert.assertEquals(" 1 3 4 5", theTree.inOrderTraverseTree(theTree.root));
+
+		Assert.assertEquals(4, theTree.getRootNode().key);
+		Assert.assertEquals(" 4 3 1 5", theTree.preOrderTraverseTree(theTree.getRootNode()));
+		Assert.assertEquals(" 1 3 4 5", theTree.inOrderTraverseTree(theTree.getRootNode()));
 	}
 }
