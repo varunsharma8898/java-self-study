@@ -18,15 +18,17 @@ public class BinarySearchTree {
 		theTree.insertNode(9);
 		theTree.insertNode(11);
 
-		theTree.inOrderTraverseTree(theTree.root);
-
 		theTree.printPretty();
-		System.out.println(theTree.findNode(11));
+
+//		System.out.println(theTree.findNode(11));
 		Node min = theTree.findMinimum(theTree.root);
-		System.out.println(min.key);
 
-		//theTree.removeNode(theTree.findNode(1));
+		theTree.preOrderTraverseTree(theTree.root);
+		System.out.println();
+
+		theTree.removeNode(theTree.findNode(4));
 		theTree.printPretty();
+		theTree.preOrderTraverseTree(theTree.root);
 	}
 
 	public void removeNode(Node nodeToRemove) {
@@ -51,18 +53,8 @@ public class BinarySearchTree {
 		// from the parent node with its child.
 		if (nodeToRemove.leftChild != null && nodeToRemove.rightChild == null) {
 			replaceNode(nodeToRemove, nodeToRemove.leftChild);
-//			if (isLeftChild(nodeToRemove)) {
-//				nodeToRemove.parent.leftChild = nodeToRemove.leftChild;
-//			} else {
-//				nodeToRemove.parent.rightChild = nodeToRemove.leftChild;
-//			}
 		} else if (nodeToRemove.leftChild == null && nodeToRemove.rightChild != null) {
 			replaceNode(nodeToRemove, nodeToRemove.rightChild);
-//			if (isLeftChild(nodeToRemove)) {
-//				nodeToRemove.parent.leftChild = nodeToRemove.rightChild;
-//			} else {
-//				nodeToRemove.parent.rightChild = nodeToRemove.rightChild;
-//			}
 		}
 
 		// if the node has both the children present, find the closest node for replacement.
@@ -70,15 +62,29 @@ public class BinarySearchTree {
 		if (nodeToRemove.leftChild != null && nodeToRemove.rightChild != null) {
 			Node replacementNode = findMinimum(nodeToRemove.rightChild);
 
-			if (replacementNode.rightChild != null) {
-				replacementNode.parent.leftChild = replacementNode.rightChild;
+			System.out.println("Replacement node = " + replacementNode);
+
+			if (!replacementNode.parent.equals(nodeToRemove)) {
+//				if (replacementNode.rightChild != null) {
+					replaceNode(replacementNode, replacementNode.rightChild);
+//				}
+				replacementNode.rightChild = nodeToRemove.rightChild;
+				replacementNode.rightChild.parent = replacementNode;
 			}
+
 			replaceNode(nodeToRemove, replacementNode);
+			replacementNode.leftChild = nodeToRemove.leftChild;
+			replacementNode.leftChild.parent = replacementNode;
 		}
 	}
 
 	private void replaceNode(Node nodeToReplace, Node replacementNode) {
-		if (nodeToReplace.parent != null) {
+		if (nodeToReplace.parent == null) {
+			// no parent means root node
+			root = replacementNode;
+
+		}
+		else {
 			if (isLeftChild(nodeToReplace)) {
 				nodeToReplace.parent.leftChild = replacementNode;
 			}
@@ -86,12 +92,14 @@ public class BinarySearchTree {
 				nodeToReplace.parent.rightChild = replacementNode;
 			}
 		}
-		replacementNode.parent = nodeToReplace.parent;
-		replacementNode.leftChild = nodeToReplace.leftChild;
-		replacementNode.rightChild = nodeToReplace.rightChild;
-		nodeToReplace.parent = null;
-		nodeToReplace.leftChild = null;
-		nodeToReplace.rightChild = null;
+		if (replacementNode != null) {
+			replacementNode.parent = nodeToReplace.parent;
+		}
+//		replacementNode.leftChild = nodeToReplace.leftChild;
+//		replacementNode.rightChild = nodeToReplace.rightChild;
+//		nodeToReplace.parent = null;
+//		nodeToReplace.leftChild = null;
+//		nodeToReplace.rightChild = null;
 	}
 
 	private boolean isLeftChild(Node node) {
@@ -157,14 +165,14 @@ public class BinarySearchTree {
 	public void inOrderTraverseTree(Node focusNode) {
 		if (focusNode != null) {
 			inOrderTraverseTree(focusNode.leftChild);
-			System.out.println(focusNode);
+			System.out.print(focusNode);
 			inOrderTraverseTree(focusNode.rightChild);
 		}
 	}
 
 	public void preOrderTraverseTree(Node focusNode) {
 		if (focusNode != null) {
-			System.out.println(focusNode);
+			System.out.print(focusNode);
 			preOrderTraverseTree(focusNode.leftChild);
 			preOrderTraverseTree(focusNode.rightChild);
 		}
@@ -174,7 +182,7 @@ public class BinarySearchTree {
 		if (focusNode != null) {
 			preOrderTraverseTree(focusNode.leftChild);
 			preOrderTraverseTree(focusNode.rightChild);
-			System.out.println(focusNode);
+			System.out.print(focusNode);
 		}
 	}
 
@@ -202,6 +210,6 @@ class Node {
 	}
 
 	public String toString() {
-		return "key = " + key;
+		return " " + key;
 	}
 }
