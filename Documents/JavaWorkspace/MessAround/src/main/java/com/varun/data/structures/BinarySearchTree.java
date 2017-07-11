@@ -4,32 +4,32 @@ public class BinarySearchTree {
 
 	Node root;
 
-	public static void main(String[] arg) {
-		BinarySearchTree theTree = new BinarySearchTree();
-		theTree.insertNode(4);
-		theTree.insertNode(5);
-		theTree.insertNode(3);
-		theTree.insertNode(1);
-		theTree.insertNode(2);
-		theTree.insertNode(8);
-		theTree.insertNode(10);
-		theTree.insertNode(7);
-		theTree.insertNode(6);
-		theTree.insertNode(9);
-		theTree.insertNode(11);
-
-		theTree.printPretty();
-
-//		System.out.println(theTree.findNode(11));
-		Node min = theTree.findMinimum(theTree.root);
-
-		theTree.preOrderTraverseTree(theTree.root);
-		System.out.println();
-
-		theTree.removeNode(theTree.findNode(4));
-		theTree.printPretty();
-		theTree.preOrderTraverseTree(theTree.root);
-	}
+//	public static void main(String[] arg) {
+//		BinarySearchTree theTree = new BinarySearchTree();
+//		theTree.insertNode(4);
+//		theTree.insertNode(5);
+//		theTree.insertNode(3);
+//		theTree.insertNode(1);
+//		theTree.insertNode(2);
+//		theTree.insertNode(8);
+//		theTree.insertNode(10);
+//		theTree.insertNode(7);
+//		theTree.insertNode(6);
+//		theTree.insertNode(9);
+//		theTree.insertNode(11);
+//
+//		theTree.printPretty();
+//
+////		System.out.println(theTree.findNode(11));
+//		Node min = theTree.findMinimum(theTree.root);
+//
+//		System.out.println(theTree.preOrderTraverseTree(theTree.root));
+//
+//
+//		theTree.removeNode(theTree.findNode(4));
+//		theTree.printPretty();
+//		theTree.preOrderTraverseTree(theTree.root);
+//	}
 
 	public void removeNode(Node nodeToRemove) {
 
@@ -39,8 +39,7 @@ public class BinarySearchTree {
 			if (nodeToRemove.parent == null) {
 				// only node in the tree, just set everything to null
 				nodeToRemove = null;
-			}
-			else {
+			} else {
 				if (isLeftChild(nodeToRemove)) {
 					nodeToRemove.parent.leftChild = null;
 				} else {
@@ -62,12 +61,8 @@ public class BinarySearchTree {
 		if (nodeToRemove.leftChild != null && nodeToRemove.rightChild != null) {
 			Node replacementNode = findMinimum(nodeToRemove.rightChild);
 
-			System.out.println("Replacement node = " + replacementNode);
-
 			if (!replacementNode.parent.equals(nodeToRemove)) {
-//				if (replacementNode.rightChild != null) {
-					replaceNode(replacementNode, replacementNode.rightChild);
-//				}
+				replaceNode(replacementNode, replacementNode.rightChild);
 				replacementNode.rightChild = nodeToRemove.rightChild;
 				replacementNode.rightChild.parent = replacementNode;
 			}
@@ -83,23 +78,16 @@ public class BinarySearchTree {
 			// no parent means root node
 			root = replacementNode;
 
-		}
-		else {
+		} else {
 			if (isLeftChild(nodeToReplace)) {
 				nodeToReplace.parent.leftChild = replacementNode;
-			}
-			else {
+			} else {
 				nodeToReplace.parent.rightChild = replacementNode;
 			}
 		}
 		if (replacementNode != null) {
 			replacementNode.parent = nodeToReplace.parent;
 		}
-//		replacementNode.leftChild = nodeToReplace.leftChild;
-//		replacementNode.rightChild = nodeToReplace.rightChild;
-//		nodeToReplace.parent = null;
-//		nodeToReplace.leftChild = null;
-//		nodeToReplace.rightChild = null;
 	}
 
 	private boolean isLeftChild(Node node) {
@@ -162,28 +150,34 @@ public class BinarySearchTree {
 		return focusNode;
 	}
 
-	public void inOrderTraverseTree(Node focusNode) {
+	public String inOrderTraverseTree(Node focusNode) {
+		StringBuilder returnStr = new StringBuilder();
 		if (focusNode != null) {
-			inOrderTraverseTree(focusNode.leftChild);
-			System.out.print(focusNode);
-			inOrderTraverseTree(focusNode.rightChild);
+			returnStr.append(inOrderTraverseTree(focusNode.leftChild));
+			returnStr.append(focusNode.toString());
+			returnStr.append(inOrderTraverseTree(focusNode.rightChild));
 		}
+		return returnStr.toString();
 	}
 
-	public void preOrderTraverseTree(Node focusNode) {
+	public String preOrderTraverseTree(Node focusNode) {
+		StringBuilder returnStr = new StringBuilder();
 		if (focusNode != null) {
-			System.out.print(focusNode);
-			preOrderTraverseTree(focusNode.leftChild);
-			preOrderTraverseTree(focusNode.rightChild);
+			returnStr.append(focusNode.toString());
+			returnStr.append(preOrderTraverseTree(focusNode.leftChild));
+			returnStr.append(preOrderTraverseTree(focusNode.rightChild));
 		}
+		return returnStr.toString();
 	}
 
-	public void postOrderTraverseTree(Node focusNode) {
+	public String postOrderTraverseTree(Node focusNode) {
+		StringBuilder returnStr = new StringBuilder();
 		if (focusNode != null) {
-			preOrderTraverseTree(focusNode.leftChild);
-			preOrderTraverseTree(focusNode.rightChild);
-			System.out.print(focusNode);
+			returnStr.append(preOrderTraverseTree(focusNode.leftChild));
+			returnStr.append(preOrderTraverseTree(focusNode.rightChild));
+			returnStr.append(focusNode.toString());
 		}
+		return returnStr.toString();
 	}
 
 	public void printPretty() {
