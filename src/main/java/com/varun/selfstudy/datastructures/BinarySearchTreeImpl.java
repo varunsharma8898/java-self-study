@@ -1,4 +1,4 @@
-package com.varun.data.structures;
+package com.varun.selfstudy.datastructures;
 
 public class BinarySearchTreeImpl implements BinarySearchTree {
 

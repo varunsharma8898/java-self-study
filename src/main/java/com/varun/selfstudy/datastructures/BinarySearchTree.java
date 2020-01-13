@@ -1,4 +1,4 @@
-package com.varun.data.structures;
+package com.varun.selfstudy.datastructures;
 
 /**
  * Created by sharmava on 11/07/17.

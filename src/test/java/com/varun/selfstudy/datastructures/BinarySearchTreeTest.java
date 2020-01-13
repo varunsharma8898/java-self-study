@@ -1,4 +1,4 @@
-package com.varun.data.structures;
+package com.varun.selfstudy.datastructures;
 
 import org.junit.Assert;
 import org.junit.Before;
