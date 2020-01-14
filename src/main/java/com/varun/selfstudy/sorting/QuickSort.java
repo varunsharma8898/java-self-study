@@ -2,6 +2,10 @@ package com.varun.selfstudy.sorting;
 
 public class QuickSort implements Sort {
 
+	/*
+	* Best case : O(n log n)
+	* Worst case: n^2 when all elements in the array are already sorted
+	* */
 	@Override
 	public int[] sort(int[] inputArray) {
 		
