@@ -4,19 +4,32 @@ import java.util.concurrent.Semaphore;
 
 public class PingPongWithSemaphore {
 
-    private Semaphore semaphore;
+    private Semaphore pingSemaphore;
+    private Semaphore pongSemaphore;
 
-    PingPongWithSemaphore(int count) {
-        this.semaphore = new Semaphore(count);
+    PingPongWithSemaphore() {
+        this.pingSemaphore = new Semaphore(1);
+        this.pongSemaphore = new Semaphore(0);
     }
 
-    public void hit(String action) {
+    public void ping() {
         while (true) {
             try {
-                semaphore.acquire();
-                System.out.println(Thread.currentThread().getName() + " - " + action);
-                semaphore.release();
-                Thread.sleep(100);         // necessary here, otherwise the current thread doesnt give up access in time
+                pingSemaphore.acquire();
+                System.out.println(Thread.currentThread().getName() + " - PING");
+                pongSemaphore.release();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void pong() {
+        while (true) {
+            try {
+                pongSemaphore.acquire();
+                System.out.println(Thread.currentThread().getName() + " - PONG");
+                pingSemaphore.release();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -24,9 +37,9 @@ public class PingPongWithSemaphore {
     }
 
     public static void main(String[] args) {
-        PingPongWithSemaphore game = new PingPongWithSemaphore(1);
-        Thread t1 = new Thread(() -> game.hit("PING"));
-        Thread t2 = new Thread(() -> game.hit("PONG"));
+        PingPongWithSemaphore game = new PingPongWithSemaphore();
+        Thread t1 = new Thread(() -> game.ping());
+        Thread t2 = new Thread(() -> game.pong());
         t1.start();
         t2.start();
     }
