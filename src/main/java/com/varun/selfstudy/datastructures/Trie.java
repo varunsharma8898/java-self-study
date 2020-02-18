@@ -49,19 +49,19 @@ public class Trie {
         return true;
     }
 
-    public static void main(String[] args) {
-
-        String[] dictionary = new String[] { "the", "their", "there", "this", "hello" };
-        Trie trie = new Trie();
-        for (String key : dictionary) {
-            trie.insert(key);
-        }
-
-        String[] searchItems = new String[] { "there", "thus", "hello" };
-        for (String key : searchItems) {
-            if (trie.search(key)) {
-                System.out.println(key + " is present in the dictionary");
-            }
-        }
-    }
+//    public static void main(String[] args) {
+//
+//        String[] dictionary = new String[] { "the", "their", "there", "this", "hello" };
+//        Trie trie = new Trie();
+//        for (String key : dictionary) {
+//            trie.insert(key);
+//        }
+//
+//        String[] searchItems = new String[] { "there", "thus", "hello" };
+//        for (String key : searchItems) {
+//            if (trie.search(key)) {
+//                System.out.println(key + " is present in the dictionary");
+//            }
+//        }
+//    }
 }
