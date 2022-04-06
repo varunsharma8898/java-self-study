@@ -157,8 +157,8 @@ public class BinarySearchTreeImpl implements BinarySearchTree {
 	public String postOrderTraverseTree(Node focusNode) {
 		StringBuilder returnStr = new StringBuilder();
 		if (focusNode != null) {
-			returnStr.append(preOrderTraverseTree(focusNode.leftChild));
-			returnStr.append(preOrderTraverseTree(focusNode.rightChild));
+			returnStr.append(postOrderTraverseTree(focusNode.leftChild));
+			returnStr.append(postOrderTraverseTree(focusNode.rightChild));
 			returnStr.append(focusNode.toString());
 		}
 		return returnStr.toString();
