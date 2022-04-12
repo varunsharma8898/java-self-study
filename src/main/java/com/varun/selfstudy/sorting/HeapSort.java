@@ -4,18 +4,18 @@ public class HeapSort implements Sort {
 
 	@Override
 	public int[] sort(int[] inputArray) {
-		heapSort(inputArray);
+		heapSort(inputArray);                                // Total = O(n log n).
 		return inputArray;
 	}
 
 	private void heapSort(int[] inputArray) {
 		int maxIndex = inputArray.length - 1;
-		buildMaxHeap(inputArray, maxIndex);
+		buildMaxHeap(inputArray, maxIndex);                  // O(n)
 		for (int i = maxIndex; i > 0; i--) {
 			int temp = inputArray[0];
 			inputArray[0] = inputArray[i];
 			inputArray[i] = temp;
-			maxHeapify(inputArray, i - 1, 0);
+			maxHeapify(inputArray, i - 1, 0);   // O(log n)
 		}
 	}
 
