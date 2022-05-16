@@ -3,13 +3,13 @@ package com.varun.selfstudy.multithreading.pingpong;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class PingPongWtihQueues {
+public class PingPongWithQueues {
 
     BlockingQueue<String> serving;
 
     BlockingQueue<String> receiving;
 
-    PingPongWtihQueues(BlockingQueue<String> q1, BlockingQueue<String> q2) {
+    PingPongWithQueues(BlockingQueue<String> q1, BlockingQueue<String> q2) {
         this.serving = q1;
         this.receiving = q2;
     }
@@ -35,14 +35,14 @@ public class PingPongWtihQueues {
         q2.offer("PING");
         Thread t1 = new Thread() {
             public void run() {
-                PingPongWtihQueues p1 = new PingPongWtihQueues(q1, q2);
+                PingPongWithQueues p1 = new PingPongWithQueues(q1, q2);
                 p1.ping();
             }
         };
 
         Thread t2 = new Thread() {
             public void run() {
-                PingPongWtihQueues p2 = new PingPongWtihQueues(q2, q1);
+                PingPongWithQueues p2 = new PingPongWithQueues(q2, q1);
                 p2.ping();
             }
         };
