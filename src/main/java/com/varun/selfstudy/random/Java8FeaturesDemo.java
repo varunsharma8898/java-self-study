@@ -112,12 +112,23 @@ public class Java8FeaturesDemo {
      * - The line of difference between the two seems to have blurred on the looks of it.
      * - but that's not the case.
      *
-     * - Interfaces cannot have constructors, static blocks, instance variables.
-     * - Abstract classes can.
+     * - Interfaces:
+     *   - Cannot have constructors or static blocks.
+     *   - Cannot have instance variables.
+     *   - Can have default methods (dummy implementations) and static methods.
+     *   - Default methods can be overridden in implementing classes.
+     *   - Static methods must be called using InterfaceName.staticMethod().
      *
+     * - Abstract Classes:
+     *   - Can have constructors and static blocks.
+     *   - Can have instance variables.
+     *   - Can have concrete methods and abstract methods.
+     *   - Concrete methods can be overridden in subclasses.
      *
-     *
-     * */
+     * - Key Differences:
+     *   - Interfaces are used to define a contract for behavior, while abstract classes are used for shared state and behavior.
+     *   - Abstract classes allow partial implementation with shared state, whereas interfaces focus on defining behavior without state.
+     */
 
     /**
      * 4. Predicates

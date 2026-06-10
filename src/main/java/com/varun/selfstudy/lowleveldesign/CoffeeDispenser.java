@@ -214,7 +214,7 @@ public class CoffeeDispenser {
             return cost;
         }
 
-        public Map<String, Coffee> getAlloffees() {
+        public Map<String, Coffee> getAllCoffees() {
             return coffeeDao.getAllCoffees();
         }
 

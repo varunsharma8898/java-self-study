@@ -38,6 +38,7 @@ public class StopThreadUsingInterrupts implements Runnable {
             System.out.println(Thread.currentThread().getName() + " - Interrupted!");
         }
 
+        System.out.println(Thread.currentThread().getName() + " - Interrupting thread.");
         t1.interrupt();
     }
 }
